@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pokédex</title>
+    <style>
+      body {
+        background-image: url("https://img.odcdn.com.br/wp-content/uploads/2025/03/pokemon-tipo-1920x1080.jpg");
+
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+
+        font-family: Arial, sans-serif; 
+        color: #333;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh; 
+        margin: 0;
+      }
+
+      .main-container {
+        background-color: rgba(
+          255,
+          255,
+          255,
+          0.9
+        );
+        padding: 40px;
+        border-radius: 15px; 
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); 
+        text-align: center; 
+        max-width: 600px;
+        width: 90%;
+      }
+
+      h1 {
+        color: #e3350d; 
+        margin-bottom: 20px;
+      }
+
+      p {
+        font-size: 1.1em;
+        margin-bottom: 30px;
+      }
+
+      .search-box {
+        margin-bottom: 30px;
+      }
+
+      h2 {
+        margin-bottom: 15px;
+        color: #333;
+      }
+
+      input[type="text"] {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        width: 70%;
+        margin-bottom: 10px;
+      }
+
+      button {
+        padding: 10px 20px;
+        background-color: #3b4cca;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1em;
+        transition: background-color 0.3s ease; 
+      }
+
+      button:hover {
+        background-color: #2a3789;
+      }
+
+      .action-button {
+        display: inline-block;
+        padding: 10px 20px;
+        margin: 10px;
+        background-color: #FFDE00; 
+        color: #3B4CCA; 
+        border: 2px solid #3B4CCA; 
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .action-button:hover {
+        background-color: #3B4CCA;
+        color: #FFDE00;
+    }
+
+    .local-actions {
+        margin-top: 30px;
+        border-top: 1px solid #ddd;
+        padding-top: 20px;
+    }
+
+    .local-link {
+        display: block;
+        margin-top: 20px;
+        color: #007bff;
+        text-decoration: none;
+      }
+
+    .local-link:hover {
+        text-decoration: underline;
+    }
+    
+    </style>
+  </head>
+  <body>
+    <div class="main-container">
+      <h1>Bem-vindo à sua Pokédex!</h1>
+      <p>
+        Procure por um Pokémon, veja suas evoluções ou consulte sua lista
+        de capturados.
+      </p>
+
+      <div class="search-box">
+        <h2>Procurar Pokémon</h2>
+        <form action="{% url 'buscarPokemons' %}" method="GET">
+          <input
+            type="text"
+            name="nome"
+            placeholder="Digite o nome do Pokémon"
+            required
+          />
+          <br />
+          <button type="submit">Procurar</button>
+        </form>
+      </div>
+      </div>
+
+      {% comment %}
+      <div class="search-box">
+        <h2>Ver Evoluções</h2>
+        <form action="{% url 'evolution_search' %}" method="GET">
+          <input
+            type="text"
+            name="pokemon_name_evo"
+            placeholder="Nome para ver a evolução"
+            required
+          />
+          <br />
+          <button type="submit">Ver Evoluções</button>
+        </form>
+      </div>
+      {% endcomment %}
+
+      
+<div class="local-actions">
+    <a href="{% url 'criarPokemons' %}" class="action-button">Adicionar um pokemon a sua pokedex</a>
+    <a href="{% url 'listarPokemons' %}" class="local-link">Ver sua Pokedex</a>
+</div>
+    </div>
+  </body>
+</html>

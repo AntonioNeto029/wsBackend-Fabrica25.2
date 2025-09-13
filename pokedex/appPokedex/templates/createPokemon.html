@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width-device-width, initial-scale=1.0" />
+    <title>Criar Pokemon</title>
+  </head>
+  <body>
+    <h1>Digite o nome do Pokemon para registrar na pokédex</h1>
+    <form method="POST">
+      {% csrf_token %} {{pokemon.as_p}}
+      <button type="submit">Salvar</button>
+    </form>
+  </body>
+</html>

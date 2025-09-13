@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lista de Pokemons</title>
+  </head>
+  <body>
+    <h1>Pokédex</h1>
+    {% for pokemon in pokemons%}
+    <ul>
+      <li>{{pokemon.nome}}</li>
+      <li>{{pokemon.tipo}}</li>
+      <li>{{pokemon.peso}}</li>
+      <li>{{pokemon.altura}}</li>
+
+      <a href="{% url 'deletarPokemon' pokemon.id %}">Deletar Pokemon</a>
+      <a href="{% url 'atualizarPokemon' pokemon.id %}">Atualizar Pokemon</a>
+    </ul>
+    {% endfor %}
+    <a href="{% url 'criarPokemons' %}">Criar Pokemon</a>
+    <a href="{% url 'home' %}">Voltar para a home</a>
+  </body>
+</html>
