@@ -5,13 +5,14 @@ class Pokemon(models.Model):
     tipo = models.CharField()
     peso = models.IntegerField()
     altura = models.IntegerField()
+    # pokedexId = models.IntegerField()
+    imagemUrl = models.URLField(blank=True, null=True)
     
-class Moves(models.Model):
-    nome = models.CharField(max_length=100)
-    precicao = models.IntegerField()
-    poder = models.IntegerField()
+# class Local(models.Model):
+    
+    
     
       
 def __str__(self):
-    return self.name + "-" + self.tipo + "-" + self.peso + "-" + self.altura
+    return self.name
 
