@@ -1,9 +1,9 @@
 from django.urls import path, include
 from . import views
-from .views import home ,listarPokemons, criarPokemons, buscarPokemons, deletarPokemon, atualizarPokemon
+from .views import listarPokemons, criarPokemons, buscarPokemons, deletarPokemon, atualizarPokemon
 
 urlpatterns = [
-    path('home/', home, name='home'),
+    path('', views.home, name='home'),
     path('criarP/', criarPokemons, name='criarPokemons'),
     path('listarP/', listarPokemons, name='listarPokemons'),
     path('buscarP/', buscarPokemons, name='buscarPokemons'),
