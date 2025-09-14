@@ -75,7 +75,14 @@
       {% endfor %}
     </ul>
 
-    <a href="{% url 'criarPokemons' %}">Capturar Novo Pokémon</a>
-    <a href="{% url 'home' %}">Voltar para a home</a>
+    <a
+      href="{% url 'criarPokemons' %}"
+      class="btn"
+      style="background-color: #d7922bff"
+      >Capturar Novo Pokémon</a
+    >
+    <a href="{% url 'home' %}" class="btn" style="background-color: #6c757d"
+      >Voltar para a Página Inicial</a
+    >
   </body>
 </html>
