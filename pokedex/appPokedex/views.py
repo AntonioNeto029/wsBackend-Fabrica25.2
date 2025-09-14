@@ -2,8 +2,8 @@ from django.views import View
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
-from .models import Pokemon, Moves
-from .forms import PokemonForm, MoveForm
+from .models import Pokemon
+from .forms import PokemonForm
 
 import requests 
 
@@ -20,11 +20,28 @@ def criarPokemons(request):
     if request.method == "POST":
         form = PokemonForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('listarPokemons')
+            novoPokemon = form.save(commit=False)
+            
+            nomePokemon = novoPokemon.nome.lower()
+            
+            url = f"https://pokeapi.co/api/v2/pokemon/{nomePokemon}/"
+            response = requests.get(url)
+            
+            if response.status_code == 200:
+                dadosPokemon = response.json()
+               
+                novoPokemon.imagemUrl = dadosPokemon['sprites']['front_default']
+                novoPokemon.save()
+                
+                return redirect('listarPokemons')
+            
+            else:
+                form.add_error('nome', f"Pokémon '{novoPokemon.nome}' não encontrado.")
+                            
     else:
         form = PokemonForm()
-    return render(request, 'createPokemon.html', {'pokemon': form})
+    return render(request, 'createPokemon.html', {'form': form})
+
 
 def deletarPokemon(request, pk):
     pokemon = Pokemon.objects.get(pk=pk)
@@ -44,30 +61,13 @@ def atualizarPokemon(request, pk):
         form = PokemonForm(instance=pokemon)
         return render(request, 'createPokemon.html', {'pokemon': form})
      
-     
-     
-     
-# def buscarPokemons(request):
-#     response = requests.get('https://pokeapi.co/api/v2/pokemon/{pokemonNome}/')
-#     dadosPokemon = response.json()
-#     pokemon = Pokemon.objects.create(
-#         nome = dadosPokemon["name"],
-#         altura = dadosPokemon["height"],
-#         peso = dadosPokemon["weight"],
-#         tipo = dadosPokemon["types"]
-#     )
-    
-#     return HttpResponse(dadosPokemon["name", "height", "weight", "types"])       
-
-# appPokedex/views.py
-
 def buscarPokemons(request):
     pokemonNome = request.GET.get('nome', '').lower()
     context = {}
 
     if not pokemonNome:
         context['error'] = "Por favor, digite o nome de um Pokémon."
-        return render(request, 'pokemon_detail.html', context)
+        return render(request, 'home.html', context)
 
     url = f"https://pokeapi.co/api/v2/pokemon/{pokemonNome}/"
     response = requests.get(url)
@@ -89,3 +89,32 @@ def buscarPokemons(request):
         context['error'] = f"Pokémon '{pokemonNome}' não encontrado. Tente novamente."
 
     return render(request, 'pokedex.html', context)
+
+# def criarPokemons(request):
+#     if request.method == "POST":
+#         form = PokemonForm(request.POST)
+#         if form.is_valid():
+#             nomePokemon = form.cleaned_data['nome'].lower()
+            
+#             url = f"https://pokeapi.co/api/v2/pokemon/{nomePokemon}/"
+#             response = requests.get(url)
+            
+#             if response.status_code == 200:
+#                 dadosPokemon = response.json()
+#                 imagemUrl = dadosPokemon['sprites']['front_default']
+                
+#                 novoPokemon = form.save(commit=False)
+#                 novoPokemon.imagemUrl = imagemUrl
+#                 novoPokemon.save()
+                
+#                 return redirect('listarPokemons')
+            
+#             else:
+#                 form.add_error('nome', f"Pokémon '{nomePokemon}' não encontrado.")
+                            
+#     else:
+#         form = PokemonForm()
+#     return render(request, 'createPokemon.html', {'form': form})
+
+    
+    
