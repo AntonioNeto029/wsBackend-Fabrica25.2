@@ -2,8 +2,8 @@ from django.views import View
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
-from .models import Pokemon
-from .forms import PokemonForm
+from .models import Pokemon, Treinador
+from .forms import PokemonForm, TreinadorForm
 
 import requests 
 
@@ -90,31 +90,38 @@ def buscarPokemons(request):
 
     return render(request, 'pokedex.html', context)
 
-# def criarPokemons(request):
-#     if request.method == "POST":
-#         form = PokemonForm(request.POST)
-#         if form.is_valid():
-#             nomePokemon = form.cleaned_data['nome'].lower()
-            
-#             url = f"https://pokeapi.co/api/v2/pokemon/{nomePokemon}/"
-#             response = requests.get(url)
-            
-#             if response.status_code == 200:
-#                 dadosPokemon = response.json()
-#                 imagemUrl = dadosPokemon['sprites']['front_default']
-                
-#                 novoPokemon = form.save(commit=False)
-#                 novoPokemon.imagemUrl = imagemUrl
-#                 novoPokemon.save()
-                
-#                 return redirect('listarPokemons')
-            
-#             else:
-#                 form.add_error('nome', f"Pokémon '{nomePokemon}' não encontrado.")
-                            
-#     else:
-#         form = PokemonForm()
-#     return render(request, 'createPokemon.html', {'form': form})
+def listarTreinador(request):
+    treinadores = Treinador.objects.all()
+    return render(request, 'listTreinador.html', {'treinadores': treinadores})
+
+def criarTreinador(request):
+    if request.method == 'POST':
+        form = TreinadorForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('listarTreinador')
+    else:
+        form = TreinadorForm()
+    return render(request, 'createTreinador.html', {'treinador': form})
+
+def deletarTreinador(request, pk):
+    treinador = Treinador.objects.get(pk=pk)
+    if request.method == 'POST':
+        treinador.delete()
+        return redirect('listarTreinador')
+    return render(request, 'confirmarDeleteTreinador.html', {'treinador': treinador})
+
+def atualizarTreinador(request, pk):
+    treinador = Treinador.objects.get(pk=pk)
+    if request.method == 'POST':
+        form = TreinadorForm(request.POST, instance=treinador)
+        if form.is_valid():
+            form.save()
+            return redirect('listTreinador')
+    else: 
+        form = TreinadorForm(instance=treinador)
+    return render(request, 'createTreinador.html', {'treinador': form})
+
 
     
     
