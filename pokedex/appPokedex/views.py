@@ -59,7 +59,7 @@ def atualizarPokemon(request, pk):
             return redirect('listarPokemons')
     else:
         form = PokemonForm(instance=pokemon)
-        return render(request, 'createPokemon.html', {'pokemon': form})
+        return render(request, 'createPokemon.html', {'form': form})
      
 def buscarPokemons(request):
     pokemonNome = request.GET.get('nome', '').lower()
