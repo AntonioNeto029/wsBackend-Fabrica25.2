@@ -6,19 +6,28 @@
     <title>Lista de Pokemons</title>
   </head>
   <body>
-    <h1>Pokédex</h1>
-    {% for pokemon in pokemons%}
-    <ul>
-      <li>{{pokemon.nome}}</li>
-      <li>{{pokemon.tipo}}</li>
-      <li>{{pokemon.peso}}</li>
-      <li>{{pokemon.altura}}</li>
+    <h1>Minha Pokédex</h1>
 
-      <a href="{% url 'deletarPokemon' pokemon.id %}">Deletar Pokemon</a>
-      <a href="{% url 'atualizarPokemon' pokemon.id %}">Atualizar Pokemon</a>
+    <ul>
+      {% for pokemon in pokemons %}
+      <li>
+        <h2>{{ pokemon.nome|title }}</h2>
+
+        {% if pokemon.imagemUrl %}
+        <img src="{{ pokemon.imagemUrl }}" alt="Imagem de {{ pokemon.nome }}" />
+        {% else %}
+        <p>(Sem imagem)</p>
+        {% endif %}
+
+        <p>Tipo: {{ pokemon.tipo }}</p>
+        <hr />
+      </li>
+      {% empty %}
+      <li>Sua Pokédex está vazia.</li>
+      {% endfor %}
     </ul>
-    {% endfor %}
-    <a href="{% url 'criarPokemons' %}">Criar Pokemon</a>
+
+    <a href="{% url 'criarPokemons' %}">Capturar Novo Pokémon</a>
     <a href="{% url 'home' %}">Voltar para a home</a>
   </body>
 </html>
